@@ -4,10 +4,12 @@ import {
     Text,
     View,
     TextInput,
-    Button,
+    Button, default as Alert,
 } from 'react-native';
 
 export default class AddFriend extends React.Component {
+
+
 
     constructor(props) {
         super(props);
@@ -32,13 +34,6 @@ export default class AddFriend extends React.Component {
             })
     };
 
-    /* renderItem = ({item}) => {
-         return (
-         );
-     };*/
-
-    //keyExtractor = (data, index) => data.by;
-
     setFriendName = (friendName) => {
         this.setState({friendName})
     };
@@ -51,7 +46,7 @@ export default class AddFriend extends React.Component {
                 <View style={styles.spacingHigh}/>
                 <Text style={styles.fieldText}>Enter friend's username: </Text>
                 <TextInput style={styles.fieldText} placeholder="Enter friend's username:" value={friendName}
-                           onChangeText={this.setFriendName}/>
+                           autoCapitalize = "none" onChangeText={this.setFriendName}/>
                 <View>
                     <Button title={"Add"} onPress={this.addFriend}/>
                 </View>

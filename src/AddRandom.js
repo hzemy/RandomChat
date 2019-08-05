@@ -3,7 +3,6 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput,
     Button,
 } from 'react-native';
 
@@ -30,14 +29,7 @@ export default class AddRandom extends React.Component {
                     alert(data[0].username + " has been added to your friendsList!");
                 }
             })
-    };
-
-    /* renderItem = ({item}) => {
-         return (
-         );
-     };*/
-
-    //keyExtractor = (data, index) => data.by;
+    };;
 
     setFriendName = (friendName) => {
         this.setState({friendName})

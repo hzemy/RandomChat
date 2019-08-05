@@ -1,5 +1,7 @@
-import React, {Component} from 'react';
-import {StyleSheet, Text, View, Button, FlatList, SectionList} from 'react-native';
+import React from 'react';
+import {abortController, Button, FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/AntDesign';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class Home extends React.Component {
     constructor(props) {
@@ -7,19 +9,17 @@ export default class Home extends React.Component {
         this.state = {
             friends: [],
             groups: [],
-            chats: []
+            chats: [],
         }
     }
 
-
-    /*componentWillUnmount() {
-        cle
-    }*/
+    controller = new AbortController();
 
     getChats = () => {
+
         const {navigation} = this.props;
         const username = navigation.getParam('userName');
-        fetch(`http://localhost:8080/Chat/getChats?username=${username}`)
+        fetch(`http://localhost:8080/Chat/getChats?username=${username}`, {signal: this.controller.signal})
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
@@ -27,11 +27,18 @@ export default class Home extends React.Component {
                 } else {
                     this.setState({
                         chats: data
-                    });
-
+                    })
                 }
-            });
+            }).catch(error => {
+            if (error.name === 'AbortError') return;
+            console.log("Other error");
+        });
     };
+
+    componentWillUnmount() {
+        this.controller.abort();
+    }
+
 
     getFriends = () => {
         const {navigation} = this.props;
@@ -50,134 +57,112 @@ export default class Home extends React.Component {
             });
     };
 
-    /*getGroups = () => {
-        const {navigation} = this.props;
-        const username = navigation.getParam('userName');
-        fetch(`http://localhost:8080/Chat/getGroups?username=${username}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.message)
-                } else {
-                    this.setState({
-                        groups: data
-                    });
-                    return data;
-
-                }
-            });
-    };*/
-
     render() {
         const {navigation} = this.props;
         const username = navigation.getParam('userName');
-        //this.getFriends();
-        //this.getGroups();
         this.getChats();
         const {chats} = this.state;
-        //const {friends} = this.state;
-        //const {groups} = this.state;
         if (chats.length === 0) {
             return (
                 <View style={styles.container}>
-                    <Text style={styles.fieldText}>Add a friend to start chatting!</Text>
-                    <Button title={"Add Friend"} onPress={() => this.props.navigation.navigate('AddFriend', {
-                        userName: username,
-                    })}/>
-                    <Button title={"Add Random"} onPress={() => this.props.navigation.navigate('AddRandom', {
-                        userName: username,
-                    })}/>
+                    <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddFriend', {
+                            userName: username,
+                        })}>
+                            <Icon name={"adduser"} size={30}/>
+                            <Text>Add{"\n"}Friend</Text>
+                        </TouchableOpacity>
 
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('CreateGroup', {
+                            userName: username,
+                        })}>
+                            <Icon name={"addusergroup"} size={30}/>
+                            <Text>Create{"\n"}Group</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddRandom', {
+                            userName: username,
+                        })}>
+                            <Icon2 name={"account-question"} size={30}/>
+                            <Text>Add{"\n"}Random</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.spacingHigh}/>
+                    <View style={styles.spacingSmall}/>
+                    <View style = {{justifyContent: "center", alignItems: "center",}}>
+                        <Text style={styles.fieldText}>Add a friend to start chatting!</Text>
+                    </View>
                 </View>
             )
         } else {
             return (
-
                 <View style={styles.container}>
-                    <Button title={"Add Friend"} onPress={() => this.props.navigation.navigate('AddFriend', {
-                        userName: username,
-                    })}/>
-                    <View style={styles.spacingSmall}/>
+                    <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddFriend', {
+                            userName: username,
+                        })}>
+                            <Icon name={"adduser"} size={30}/>
+                            <Text>Add{"\n"}Friend</Text>
+                        </TouchableOpacity>
 
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('CreateGroup', {
+                            userName: username,
+                        })}>
+                            <Icon name={"addusergroup"} size={30}/>
+                            <Text>Create{"\n"}Group</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('AddRandom', {
+                            userName: username,
+                        })}>
+                            <Icon2 name={"account-question"} size={30}/>
+                            <Text>Add{"\n"}Random</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.spacingHigh}/>
+                    <View style={styles.spacingSmall}/>
+                    <View style={{justifyContent: "center", alignItems: "center",}}>
+                        <Text style={{fontWeight: "500",}}>Chats: </Text>
+                    </View>
+                    <View style={styles.spacingSmall}/>
                     <FlatList
                         keyExtractor={(item, index) => index.toString()}
                         data={chats}
                         renderItem={this.renderItem}
-
                     />
-                    <Button title={"Create Group"} onPress={() => this.props.navigation.navigate('CreateGroup', {
-                        userName: username,
-
-                    })}/>
-                    <Button title={"Add Random"} onPress={() => this.props.navigation.navigate('AddRandom', {
-                        userName: username,
-                    })}/>
                 </View>
             )
         }
 
     }
 
-
     renderItem = ({item}) => {
         const {navigation} = this.props;
         const username = navigation.getParam('userName');
-        const name = item.username === undefined ? item.id : item.username;
-        const func = item.username === undefined ? this.loadChatGroup : this.loadChat;
-        return(
+        const func = (item.id).includes("-") ? this.loadChat : this.loadChatGroup;
+        const name = (item.id).includes("-") ? (item.id).substring(0, (item.id).indexOf("-")) : item.id;
+        const sender = item.sender.username === username ? "Me" : item.sender.username;
+        const lastText = item.sender.username === null ? "Start chatting!" : sender + ": " + item.message;
+        const color = lastText === "Start chatting!" ? "#6F6F6F" : "#4D3F3F";
+        return (
             <View>
-                <Text style={styles.fieldText}>
-                    {name}
-                </Text>
-                <View>
-                    <Button title={"View Chat"} onPress={() => func(username, name)}/>
-                </View>
+                <TouchableOpacity onPress={() => func(username, name)}>
+                    <Text>
+                        {name}
+                    </Text>
+                    <Text style={{color: color}}>
+                        {lastText}
+                    </Text>
+                </TouchableOpacity>
                 <View style={styles.spacingSmall}/>
-
             </View>
         )
-
-        /*return (
-            <View>
-                <Text style={styles.fieldText}>
-                    {item.username}
-                </Text>
-                <View>
-                    <Button title={"View Chat"} onPress={() => this.loadChat(username, item.username)}/>
-                </View>
-                <View style={styles.spacingSmall}/>
-
-            </View>
-
-        )*/
-
-
-
     };
-
-    /*renderGroup = ({item}) => {
-        const {navigation} = this.props;
-        const username = navigation.getParam('userName');
-        return(
-            <View>
-                <Text style={styles.fieldText}>
-                    {item.id}
-                </Text>
-                <View>
-                    <Button title={"View Chat"} onPress={() => this.loadChatGroup(username, item.id)}/>
-                </View>
-                <View style={styles.spacingSmall}/>
-
-            </View>
-        )
-
-    };*/
 
     loadChat = (username, friend) => {
         fetch(`http://localhost:8080/Chat/read?username=${username}&friend=${friend}`)
             .then(res => res.json())
             .then(data => {
-                //console.log(data);
                 if (data.error) {
                     alert(data.message)
                 } else {
@@ -195,7 +180,6 @@ export default class Home extends React.Component {
         fetch(`http://localhost:8080/Chat/readgroup?gName=${id}`)
             .then(res => res.json())
             .then(data => {
-                //console.log(data);
                 if (data.error) {
                     alert(data.message)
                 } else {
@@ -208,8 +192,6 @@ export default class Home extends React.Component {
                 }
             });
     }
-
-
 }
 
 const styles = StyleSheet.create({
@@ -228,9 +210,12 @@ const styles = StyleSheet.create({
     },
     fieldText: {
         fontSize: 16,
-        textAlign: "center"
+        flexWrap: "wrap",
     },
     spacingSmall: {
         padding: 5
+    },
+    spacingHigh: {
+        padding: 10
     },
 });

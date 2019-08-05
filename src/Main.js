@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TextInput, Button} from 'react-native';
+import {StyleSheet, Text, View, Button} from 'react-native';
 
 export default class Main extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -10,10 +9,15 @@ export default class Main extends React.Component {
         }
     }
 
+    static navigationOptions = {
+        header: null
+    };
+
+
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <View>
+            <View style = {{position: "absolute", marginTop: 100, marginLeft: 40}}>
                 <Text style={styles.heading}>Welcome to RandomChats!</Text>
                 <View style={styles.spacingHigh}/>
                 <View>
