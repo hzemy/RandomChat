@@ -45,9 +45,9 @@ export default class AddFriend extends React.Component {
                 <Text style={styles.heading}>Add friend!</Text>
                 <View style={styles.spacingHigh}/>
                 <Text style={styles.fieldText}>Enter friend's username: </Text>
-                <TextInput style={styles.fieldText} placeholder="Enter friend's username:" value={friendName}
+                <TextInput style={styles.fieldText} placeholder="Enter friend's username" value={friendName}
                            autoCapitalize = "none" onChangeText={this.setFriendName}/>
-                <View>
+                <View style={{width: "50%", alignSelf: "center"}}>
                     <Button title={"Add"} onPress={this.addFriend}/>
                 </View>
             </View>

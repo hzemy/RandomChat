@@ -19,7 +19,7 @@ export default class AddRandom extends React.Component {
     addRandom = () => {
         const {navigation} = this.props;
         const username = navigation.getParam('userName');
-        fetch(`http://localhost:8080/Friends/addrandom?username=${username}`)
+        fetch(`http://192.168.0.103:8080/Friends/addrandom?username=${username}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -40,7 +40,7 @@ export default class AddRandom extends React.Component {
             <View>
                 <Text style={styles.heading}>Add a random friend!</Text>
                 <View style={styles.spacingHigh}/>
-                <View>
+                <View style={{width: "50%", alignSelf: "center"}}>
                     <Button title={"Add"} onPress={this.addRandom}/>
                 </View>
             </View>

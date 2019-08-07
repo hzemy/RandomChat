@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'testProject' do
-  # Pods for testProject
+target 'RandomChats' do
+  # Pods for RandomChats
   pod 'React', :path => '../node_modules/react-native/'
   pod 'React-Core', :path => '../node_modules/react-native/React'
   pod 'React-DevSupport', :path => '../node_modules/react-native/React'
@@ -32,7 +32,7 @@ target 'testProject' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
-  target 'testProjectTests' do
+  target 'RandomChatsTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -40,10 +40,10 @@ target 'testProject' do
   use_native_modules!
 end
 
-target 'testProject-tvOS' do
-  # Pods for testProject-tvOS
+target 'RandomChats-tvOS' do
+  # Pods for RandomChats-tvOS
 
-  target 'testProject-tvOSTests' do
+  target 'RandomChats-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

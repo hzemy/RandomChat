@@ -8,16 +8,58 @@ export default class ChatScreen extends React.Component {
         this.state = {
             username: "",
             chat: {},
-            message: ""
+            message: "",
+            chats: []
         }
     }
+    loadChat = (username, friendName) => {
+        fetch(`http://192.168.0.100:8080/Chat/read?username=${username}&friend=${friendName}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.message)
+                } else {
+                    this.setState({
+                        chats: data
+                    })
+                }
+            });
+    };
+
+    loadChatGroup = (username, id) => {
+
+        fetch(`http://192.168.0.100:8080/Chat/readgroup?gName=${id}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.message)
+                } else {
+                    this.setState({
+                        chats: data
+                    })
+                }
+            });
+    };
+
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: navigation.getParam("friendName"),
+        };
+    };
 
     render() {
         const {navigation} = this.props;
         const friendName = navigation.getParam('friendName'); //friend or id
         const username = navigation.getParam('userName');
-        const chats = navigation.getParam('chats');
+        const isGroup = navigation.getParam('isGroup');
         const {message} = this.state;
+        if (isGroup) {
+           this.loadChatGroup(username, friendName);
+        } else {
+            this.loadChat(username, friendName);
+        }
+        const {chats} = this.state;
+        console.log(chats)
         if (chats.length === 0) {
             return (
                 <View style={styles.container}>
@@ -100,9 +142,9 @@ export default class ChatScreen extends React.Component {
         const isGroup = navigation.getParam('isGroup');
         let url = "";
         if (isGroup) {
-            url = `http://localhost:8080/Chat/chatgroup?username=${username}&gName=${friendName}&message=${message}`;
+            url = `http://192.168.0.100:8080/Chat/chatgroup?username=${username}&gName=${friendName}&message=${message}`;
         } else {
-            url = `http://localhost:8080/Chat/chat?username=${username}&friend=${friendName}&message=${message}`;
+            url = `http://192.168.0.100:8080/Chat/chat?username=${username}&friend=${friendName}&message=${message}`;
         }
         fetch(url)
             .then(res => res.json())

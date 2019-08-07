@@ -1,4 +1,4 @@
-package com.testproject;
+package com.randomchats;
 
 import android.app.Application;
 import android.util.Log;

@@ -55,11 +55,11 @@ export default class Signup extends React.Component {
                                onChangeText={confirm => this.setState({confirm})}/>
                     <Text> {"  "}</Text>
                     <TouchableOpacity onPress={() => this.setState({hidden: !hidden})}>
-                        <Icon name={title} size={15}/>
+                        <Icon name={title} size={18}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.spacingSmall}/>
-                <View>
+                <View style={{width: "50%", alignSelf: "center"}}>
                     <Button title={"Sign Up"} onPress={this.signupUser}/>
                 </View>
             </View>

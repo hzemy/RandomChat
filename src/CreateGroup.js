@@ -24,7 +24,7 @@ export default class CreateGroup extends React.Component {
         console.log(username);
         console.log(memberNames);
         console.log("GroupNames: " + groupName);
-        fetch(`http://localhost:8080/Chat/creategroup?username=${username}&friends=${memberNames}&gName=${groupName}`)
+        fetch(`http://192.168.0.103:8080/Chat/creategroup?username=${username}&friends=${memberNames}&gName=${groupName}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -52,16 +52,16 @@ export default class CreateGroup extends React.Component {
                 <Text style={styles.heading}>Create Group!</Text>
                 <View style={styles.spacingHigh}/>
                 <Text style={styles.fieldText}>Enter group name: </Text>
-                <TextInput style={styles.fieldText} placeholder="Enter group name:" value={groupName}
+                <TextInput style={styles.fieldText} placeholder="Enter group name" value={groupName}
                            autoCapitalize={"none"}
                            onChangeText={this.setGroupName}/>
                 <View style={styles.spacingSmall}/>
                 <Text style={styles.fieldText}>Enter name of friends to add separated by commas: </Text>
                 <TextInput style={styles.fieldText}
-                           placeholder="Enter name of friends to add separated by commas:" value={memberNames}
+                           placeholder="Enter name of friends to add separated by commas" value={memberNames}
                            autoCapitalize={"none"}
                            onChangeText={this.setMemberNames}/>
-                <View>
+                <View style={{width: "50%", alignSelf: "center"}}>
                     <Button title={"Create"} onPress={this.createGroup}/>
                 </View>
             </View>

@@ -17,16 +17,16 @@ export default class Main extends React.Component {
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <View style = {{position: "absolute", marginTop: 100, marginLeft: 40}}>
+            <View style = {{ marginTop: 40}}>
                 <Text style={styles.heading}>Welcome to RandomChats!</Text>
                 <View style={styles.spacingHigh}/>
-                <View>
+                <View style={{width: "50%", alignSelf: "center"}}>
                     <Text style={styles.fieldText}>New User?</Text>
                     <Button title={"Sign Up"} onPress={() => this.props.navigation.navigate('Signup',
                     )}/>
                 </View>
                 <View style={styles.spacingSmall}/>
-                <View>
+                <View style={{width: "50%", alignSelf: "center"}}>
                     <Text style={styles.fieldText}>Coming Back?</Text>
                     <Button title={"Login"} onPress={() => this.props.navigation.navigate('Login')}/>
                 </View>

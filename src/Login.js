@@ -16,7 +16,7 @@ export default class Login extends React.Component {
 
     loginUser = () => {
         const {username, password} = this.state;
-        fetch(`http://localhost:8080/User/login?username=${username}&password=${password}`)
+        fetch(`http://192.168.0.100:8080/User/login?username=${username}&password=${password}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
@@ -37,7 +37,6 @@ export default class Login extends React.Component {
         return (
             <View style={styles.heading}>
                 <Text style={styles.heading}>Welcome Back!</Text>
-
                 <View style={styles.spacingHigh}/>
                 <Text style={styles.fieldText}>Username: </Text>
                 <TextInput style={styles.fieldText} autoCapitalize="none" placeholder="Enter username"
@@ -52,14 +51,13 @@ export default class Login extends React.Component {
                                onChangeText={password => this.setState({password})}/>
                     <Text> {"  "}</Text>
                     <TouchableOpacity onPress={() => this.setState({hidden: !hidden})}>
-                        <Icon name={title} size={15}/>
+                        <Icon name={title} size={18}/>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.spacingSmall}/>
-                <View>
+                <View style={{width: "50%", alignSelf: "center"}}>
                     <Button title={"Login"} onPress={this.loginUser}/>
                 </View>
-
             </View>
         );
     }
