@@ -19,7 +19,7 @@ export default class Home extends React.Component {
 
         const {navigation} = this.props;
         const username = navigation.getParam('userName');
-        fetch(`http://192.168.0.100:8080/Chat/getChats?username=${username}`, {signal: this.controller.signal})
+        fetch(`http://localhost:8080/Chat/getChats?username=${username}`, {signal: this.controller.signal})
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
@@ -38,24 +38,6 @@ export default class Home extends React.Component {
     componentWillUnmount() {
         this.controller.abort();
     }
-
-
-    getFriends = () => {
-        const {navigation} = this.props;
-        const username = navigation.getParam('userName');
-        fetch(`http://localhost:8080/Friends/list?username=${username}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.error) {
-                    alert(data.message)
-                } else {
-                    this.setState({
-                        friends: data
-                    });
-
-                }
-            });
-    };
 
     render() {
         const {navigation} = this.props;
@@ -162,9 +144,6 @@ export default class Home extends React.Component {
             </View>
         )
     };
-
-
-
 }
 
 const styles = StyleSheet.create({

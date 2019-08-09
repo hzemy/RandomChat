@@ -16,7 +16,7 @@ export default class Login extends React.Component {
 
     loginUser = () => {
         const {username, password} = this.state;
-        fetch(`http://192.168.0.100:8080/User/login?username=${username}&password=${password}`)
+        fetch(`http://localhost:8080/User/login?username=${username}&password=${password}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);

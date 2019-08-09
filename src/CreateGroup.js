@@ -24,7 +24,7 @@ export default class CreateGroup extends React.Component {
         console.log(username);
         console.log(memberNames);
         console.log("GroupNames: " + groupName);
-        fetch(`http://192.168.0.103:8080/Chat/creategroup?username=${username}&friends=${memberNames}&gName=${groupName}`)
+        fetch(`http://localhost:8080/Chat/creategroup?username=${username}&friends=${memberNames}&gName=${groupName}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);

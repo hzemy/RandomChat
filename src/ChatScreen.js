@@ -13,7 +13,7 @@ export default class ChatScreen extends React.Component {
         }
     }
     loadChat = (username, friendName) => {
-        fetch(`http://192.168.0.100:8080/Chat/read?username=${username}&friend=${friendName}`)
+        fetch(`http://localhost:8080/Chat/read?username=${username}&friend=${friendName}`)
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
@@ -28,7 +28,7 @@ export default class ChatScreen extends React.Component {
 
     loadChatGroup = (username, id) => {
 
-        fetch(`http://192.168.0.100:8080/Chat/readgroup?gName=${id}`)
+        fetch(`http://localhost:8080/Chat/readgroup?gName=${id}`)
             .then(res => res.json())
             .then(data => {
                 if (data.error) {
@@ -142,9 +142,9 @@ export default class ChatScreen extends React.Component {
         const isGroup = navigation.getParam('isGroup');
         let url = "";
         if (isGroup) {
-            url = `http://192.168.0.100:8080/Chat/chatgroup?username=${username}&gName=${friendName}&message=${message}`;
+            url = `http://localhost:8080/Chat/chatgroup?username=${username}&gName=${friendName}&message=${message}`;
         } else {
-            url = `http://192.168.0.100:8080/Chat/chat?username=${username}&friend=${friendName}&message=${message}`;
+            url = `http://localhost:8080/Chat/chat?username=${username}&friend=${friendName}&message=${message}`;
         }
         fetch(url)
             .then(res => res.json())
